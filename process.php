@@ -56,8 +56,12 @@
 
     $arr = countWords(textToArray($txt));
 
+    echo "<table>";
+    echo "<tr><th>word</th><th>frequency</th>";
+
     for ($i = 0; $i < count($arr); $i++) {
-        echo $arr[$i]["word"]."=".$arr[$i]["count"]."<br>";
+        echo "<tr>"."<td>".$arr[$i]["word"]."</td>"."<td>".$arr[$i]["count"]."</td>"."</tr>";
        }
 
+    echo "</table>";
 ?>
