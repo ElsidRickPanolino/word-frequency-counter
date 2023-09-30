@@ -3,15 +3,12 @@
     $limit = $_POST["limit"];
     $sort = $_POST["sort"];
 
+    // removes punctuation and returns array of words
     function removePunctuation(string $txt){
         $punctuations = " .,!?;:-()[]{}\"'/\\|&#@–\n";
-
         $words = [];
-
         $txt = preg_replace('/\n/', ' ', $txt);
-
         $token = strtok($txt, $punctuations);
-
         while ($token !== false)
         {
         array_push($words, $token);
@@ -21,59 +18,58 @@
     }
 
 
-    function removeCommonWords(array $str){
+    // removes common words and other invalid texts
+    function removeCommonWords(array $strArr){
         $common_words = ["i", "the", "a", "is", "this", "an", "and", "at", "but", "if"
         ,"in", "it", "of", "on", "or", "to", "with", "as", "s"];
-
         $empty_string = [" ","\n", ""];
-
         $alphabet = range('a', 'z');
-    
-        $str = array_map('strtolower', $str);
+        $str = array_map('strtolower', $strArr);
     
         //remove common words
         while (true) {
-            $commonElements = array_intersect($str, $common_words);
+            $commonElements = array_intersect($strArr, $common_words);
             
             if (empty($commonElements)) {
                 break;
             }
         
             foreach ($commonElements as $value) {
-                $index = array_search($value, $str);
+                $index = array_search($value, $strArr);
                 if ($index !== false) {
-                    unset($str[$index]);
+                    unset($strArr[$index]);
                 }
             }
         }
 
         //remove empty string
         while (true) {
-            $commonElements = array_intersect($str, $empty_string);
+            $commonElements = array_intersect($strArr, $empty_string);
             
             if (empty($commonElements)) {
                 break;
             }
         
             foreach ($commonElements as $value) {
-                $index = array_search($value, $str);
+                $index = array_search($value, $strArr);
                 if ($index !== false) {
                     echo "remove ".$str[$index];
-                    unset($str[$index]);
+                    unset($strArr[$index]);
                 }
             }
         }       
             
-        return $str;
+        return $strArr;
     }
 
-    function textToArray(string $txt){
-        $txt_array = removePunctuation($txt);
-        $txt_array = removeCommonWords($txt_array);    
+    function textToArray(string $words){
+        $words_array = removePunctuation($words);
+        $words_array = removeCommonWords($words_array);    
 
-        return $txt_array;
+        return $words_array;
     }
 
+    // returns the array of words associated with its frequency
     function countWords($wordsArray) {
         $wordCounts = [];
 
@@ -94,12 +90,14 @@
 
     $arr = countWords(textToArray($txt));
 
+    // Sorting the array by the frequency
     function sortByCount($a, $b) {
         return $b['count'] - $a['count'];
     }
 
     usort($arr, 'sortByCount'); 
 
+    // Display the table
     echo "<table>";
     echo "<tr><th>index</th><th>word</th><th>frequency</th>";
 
