@@ -101,6 +101,10 @@
     echo "<table>";
     echo "<tr><th>index</th><th>word</th><th>frequency</th>";
 
+    if (count($arr)<$limit){
+        $limit = count($arr);
+    }
+    
     if ($sort == 'asc'){
         for ($i = count($arr)-1; $i >= count($arr)-$limit; $i--) {
             $index = count($arr)-$i;
