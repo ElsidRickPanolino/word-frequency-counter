@@ -1,4 +1,19 @@
-<?php 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Word Frequency Counter</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>Word Frequency Counter</h1>
+    <button onclick="goBack()">Go Back</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <?php 
     $txt = $_POST["text"];
     $limit = $_POST["limit"];
     $sort = $_POST["sort"];
@@ -14,6 +29,11 @@
         array_push($words, $token);
         $token = strtok($punctuations);
         }
+
+        foreach ($words as $i){
+            $i = strtolower($i);
+        }
+
         return $words;
     }
 
@@ -24,7 +44,6 @@
         ,"in", "it", "of", "on", "or", "to", "with", "as", "s"];
         $empty_string = [" ","\n", ""];
         $alphabet = range('a', 'z');
-        $str = array_map('strtolower', $strArr);
     
         //remove common words
         while (true) {
@@ -64,7 +83,7 @@
 
     function textToArray(string $words){
         $words_array = removePunctuation($words);
-        $words_array = removeCommonWords($words_array);    
+        $words_array = removeCommonWords($words_array);
 
         return $words_array;
     }
@@ -114,9 +133,13 @@
     elseif($sort == 'desc'){
         for ($i = 0; $i < $limit; $i++) {
             $index = $i+1;
-            echo "<tr>"."<td>$index</td>"."<td>".$arr[$i]["word"]."</td>"."<td>".$arr[$i]["count"]."</td>"."</tr>";
+            echo "<tr>"."<td>$index</td>"."<td style = 'text-align:left;'>".$arr[$i]["word"]."</td>"."<td>".$arr[$i]["count"]."</td>"."</tr>";
            }
     
     }
     echo "</table>";
 ?>
+
+    </form>
+</body>
+</html>
